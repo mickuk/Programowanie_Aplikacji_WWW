@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Błąd aktywacji{% endblock %}
+
+{% block content %}
+<div class="activation-message error">
+    <h2>Błąd aktywacji konta</h2>
+    <p>Przepraszamy, ale link aktywacyjny jest nieprawidłowy lub wygasł.</p>
+    <p>Możliwe przyczyny:</p>
+    <ul>
+        <li>Link aktywacyjny został już wykorzystany</li>
+        <li>Link aktywacyjny wygasł</li>
+        <li>Link aktywacyjny jest nieprawidłowy</li>
+    </ul>
+    <div class="actions">
+        <a href="{% url 'register' %}" class="button">Zarejestruj się ponownie</a>
+    </div>
+</div>
+{% endblock %}

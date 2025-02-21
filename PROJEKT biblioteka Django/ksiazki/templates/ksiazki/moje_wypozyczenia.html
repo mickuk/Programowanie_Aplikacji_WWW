@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Moje wypożyczenia{% endblock %}
+
+{% block content %}
+<h1>Moje wypożyczenia</h1>
+
+{% if wypozyczenia %}
+<table>
+    <thead>
+        <tr>
+            <th>Książka</th>
+            <th>Data wypożyczenia</th>
+            <th>Przewidywana data zwrotu</th>
+            <th>Status</th>
+            <th>Opłata</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for wypozyczenie in wypozyczenia %}
+        <tr>
+            <td>{{ wypozyczenie.ksiazka.tytul }}</td>
+            <td>{{ wypozyczenie.data_wypozyczenia|date:"d.m.Y" }}</td>
+            <td>{{ wypozyczenie.przewidywana_data_zwrotu|date:"d.m.Y" }}</td>
+            <td>
+                {% if not wypozyczenie.zatwierdzone %}
+                    Oczekujące
+                {% else %}
+                    Zatwierdzone
+                {% endif %}
+            </td>
+            <td>{{ wypozyczenie.oplata|floatformat:2 }} zł</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Nie masz żadnych aktywnych lub oczekujących wypożyczeń.</p>
+{% endif %}
+{% endblock %}

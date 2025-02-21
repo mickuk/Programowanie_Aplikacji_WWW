@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Dodaj książkę - Biblioteka{% endblock %}
+
+{% block content %}
+<h1>Dodaj książkę</h1>
+
+{% if user.is_authenticated and user.is_staff %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">Dodaj książkę</button>
+    </form>
+{% else %}
+    <p>Nie masz uprawnień do dodawania książek.</p>
+{% endif %}
+{% endblock %}

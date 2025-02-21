@@ -1,0 +1,12 @@
+{% autoescape off %}
+Cześć {{ user.username }},
+
+Kliknij w poniższy link, aby aktywować swoje konto w Bibliotece:
+
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+Jeśli nie rejestrowałeś się w naszym serwisie, zignoruj tę wiadomość.
+
+Pozdrawiamy,
+Zespół Biblioteki Osiedlowej
+{% endautoescape %}

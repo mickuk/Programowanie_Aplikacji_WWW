@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Profil - {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>Profil użytkownika</h2>
+    <div class="user-info">
+        <p><strong>Nazwa użytkownika:</strong> {{ user.username }}</p>
+        <p><strong>Imię:</strong> {{ user.first_name }}</p>
+        <p><strong>Nazwisko:</strong> {{ user.last_name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+    </div>
+
+    <div class="borrowed-books">
+        <h3>Historia Twoich wypożyczeń</h3>
+        {% if user.wypozyczenie_set.all %}
+        <ul>
+            {% for wypozyczenie in user.wypozyczenie_set.all %}
+            <li>
+                {{ wypozyczenie.ksiazka.tytul }}
+                (Wypożyczono: {{ wypozyczenie.data_wypozyczenia|date:"d.m.Y" }})
+                {% if wypozyczenie.zatwierdzone %}
+                <span class="status-approved">Zatwierdzone</span>
+                {% else %}
+                <span class="status-pending">Oczekuje na zatwierdzenie</span>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Nie masz jeszcze żadnych wypożyczeń.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

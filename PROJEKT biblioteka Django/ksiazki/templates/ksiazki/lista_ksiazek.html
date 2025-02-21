@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Biblioteka - Lista książek{% endblock %}
+
+{% block content %}
+<div class="books-container">
+    <h1>Nasza kolekcja książek</h1>
+
+    <div class="books-grid">
+        {% for ksiazka in ksiazki %}
+        <div class="book-card">
+            {% if ksiazka.okladka %}
+            <img src="{{ ksiazka.okladka.url }}" alt="{{ ksiazka.tytul }}" class="book-cover">
+            {% endif %}
+            <div class="book-info">
+                <h3>{{ ksiazka.tytul }}</h3>
+                <p class="author">{{ ksiazka.autor }}</p>
+                <p class="category">{{ ksiazka.kategoria }}</p>
+                <div class="status {% if ksiazka.dostepna %}available{% else %}unavailable{% endif %}">
+                    {{ ksiazka.dostepna|yesno:"Dostępna,Wypożyczona" }}
+                </div>
+                <a href="{% url 'szczegoly_ksiazki' ksiazka.pk %}" class="button">Szczegóły</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if ksiazki.has_previous %}
+            <a href="?page=1">&laquo; pierwsza</a>
+            <a href="?page={{ ksiazki.previous_page_number }}">poprzednia</a>
+            {% endif %}
+
+            <span class="current">
+                Strona {{ ksiazki.number }} z {{ ksiazki.paginator.num_pages }}
+            </span>
+
+            {% if ksiazki.has_next %}
+            <a href="?page={{ ksiazki.next_page_number }}">następna</a>
+            <a href="?page={{ ksiazki.paginator.num_pages }}">ostatnia &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    <div class="export-buttons">
+        <a href="{% url 'export_xml' %}" class="button">Eksportuj do XML</a>
+        {% if user.is_authenticated and user.is_staff %}
+        <div class="admin-buttons">
+            <a href="{% url 'dodaj_ksiazke' %}" class="button">Dodaj książkę</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

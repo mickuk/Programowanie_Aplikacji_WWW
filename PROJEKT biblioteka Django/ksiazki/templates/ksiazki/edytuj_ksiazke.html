@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Edytuj książkę - {{ ksiazka.tytul }}{% endblock %}
+
+{% block content %}
+<h1>Edytuj książkę: {{ ksiazka.tytul }}</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="button">Zapisz zmiany</button>
+</form>
+{% endblock %}

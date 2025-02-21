@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Wypożyczenia{% endblock %}
+
+{% block content %}
+<h2>Prośby o wypożyczenia</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Tytuł książki</th>
+            <th>Czytelnik</th>
+            <th>Data prośby</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for wypozyczenie in pending %}
+        <tr>
+            <td>{{ wypozyczenie.ksiazka.tytul }}</td>
+            <td>{{ wypozyczenie.czytelnik.username }}</td>
+            <td>{{ wypozyczenie.data_wypozyczenia|date:"Y-m-d H:i" }}</td>
+            <td>
+                <a href="{% url 'zatwierdz_wypozyczenie' wypozyczenie.pk %}">Zatwierdź</a> |
+                <a href="{% url 'odrzuc_wypozyczenie' wypozyczenie.pk %}">Odrzuć</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">Brak oczekujących wypożyczeń.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Aktywne wypożyczenia</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Tytuł książki</th>
+            <th>Czytelnik</th>
+            <th>Data wypożyczenia</th>
+            <th>Opłata</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for wypozyczenie in active %}
+        <tr>
+            <td>{{ wypozyczenie.ksiazka.tytul }}</td>
+            <td>{{ wypozyczenie.czytelnik.username }}</td>
+            <td>{{ wypozyczenie.data_wypozyczenia|date:"Y-m-d" }}</td>
+            <td>{{ wypozyczenie.oplata|floatformat:2 }} zł</td>
+            <td>
+                {% if wypozyczenie.oplata > 0 %}
+                    <a href="{% url 'approve_overdue_payment' wypozyczenie.pk %}">Opłacone</a>
+                {% else %}
+                    <a href="{% url 'zatwierdz_zwrot' wypozyczenie.pk %}">Zwróć książkę</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

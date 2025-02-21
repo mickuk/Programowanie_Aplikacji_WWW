@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Aktywacja zakończona{% endblock %}
+
+{% block content %}
+<div class="activation-message">
+    <h2>Aktywacja konta zakończona pomyślnie!</h2>
+    <p>Twoje konto zostało aktywowane. Możesz teraz korzystać z wszystkich funkcji biblioteki.</p>
+    <div class="actions">
+        <a href="{% url 'profile' %}" class="button">Przejdź do profilu</a>
+    </div>
+</div>
+{% endblock %}
