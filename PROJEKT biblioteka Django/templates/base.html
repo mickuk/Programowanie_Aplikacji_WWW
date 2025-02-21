@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Biblioteka{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="nav-left">
+                <a href="{% url 'lista_ksiazek' %}" class="logo">Biblioteka</a>
+            </div>
+            <div class="nav-right">
+                {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                <a href="{% url 'lista_wypozyczen' %}">Wypożyczenia</a>
+                {% else %}
+                <a href="{% url 'moje_wypozyczenia' %}">Moje wypożyczenia</a>
+                {% endif %}
+                <a href="{% url 'profile' %}">Profil</a>
+                <a href="{% url 'logout' %}">Wyloguj</a>
+                {% else %}
+                <a href="{% url 'login' %}">Zaloguj</a>
+                <a href="{% url 'register' %}">Zarejestruj</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="message {{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Biblioteka Osiedlowa. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+</body>
+
+</html>
